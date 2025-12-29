@@ -1,0 +1,50 @@
+
+import React from 'react';
+import { Task } from '../types';
+
+interface TaskListProps {
+  tasks: Task[];
+  onComplete: (id: string) => void;
+}
+
+const TaskList: React.FC<TaskListProps> = ({ tasks, onComplete }) => {
+  const getIcon = (type: string) => {
+    if (type === 'TELEGRAM') return 'fa-telegram';
+    if (type === 'YOUTUBE') return 'fa-youtube';
+    if (type === 'FACEBOOK') return 'fa-facebook';
+    return 'fa-globe';
+  };
+
+  return (
+    <div className="space-y-4">
+      <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">
+        <i className="fa-solid fa-briefcase text-blue-600"></i>
+        কাজসমূহ
+      </h2>
+      {tasks.length === 0 ? (
+        <div className="bg-white p-10 rounded-3xl text-center border border-dashed text-gray-400">
+           <p className="font-bold">বর্তমানে কোনো কাজ নেই।</p>
+        </div>
+      ) : tasks.map(task => (
+        <div key={task.id} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex items-center gap-4">
+           <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 text-2xl">
+              <i className={`fa-brands ${getIcon(task.type)}`}></i>
+           </div>
+           <div className="flex-1">
+              <h4 className="font-bold text-gray-800 text-sm">{task.title}</h4>
+              <p className="text-[10px] font-black text-green-600 uppercase">৳{task.reward.toFixed(2)} • {task.type}</p>
+           </div>
+           <button 
+             onClick={() => {
+                window.open(task.link, '_blank');
+                setTimeout(() => onComplete(task.id), 5000);
+             }}
+             className="bg-blue-600 text-white text-xs font-black px-5 py-2.5 rounded-full shadow-md active:scale-95"
+           >শুরু করুন</button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default TaskList;
