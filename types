@@ -1,0 +1,52 @@
+
+export type UserRole = 'USER' | 'ADMIN';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  balance: number;
+  referralIncome: number;
+  referralCount: number;
+  totalWithdraw: number;
+  isActivated: boolean;
+  isActivationPending?: boolean;
+  role: UserRole;
+  joinedAt: string;
+  refId: string;
+  leaderName: string;
+  referredBy?: string;
+}
+
+export type TaskType = 'TELEGRAM' | 'FACEBOOK' | 'YOUTUBE' | 'WEBSITE' | 'APP_REVIEW' | 'INSTAGRAM' | 'TIKTOK' | 'OTHER';
+
+export interface Task {
+  id: string;
+  title: string;
+  type: TaskType;
+  reward: number;
+  link: string;
+  isCompleted: boolean;
+}
+
+export interface WithdrawalRequest {
+  id: string;
+  userId: string;
+  userName: string;
+  amount: number;
+  method: 'bKash' | 'Nagad';
+  number: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  date: string;
+}
+
+export interface ActivationRequest {
+  id: string;
+  userId: string;
+  userName: string;
+  method: 'bKash' | 'Nagad';
+  txId: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  date: string;
+}
