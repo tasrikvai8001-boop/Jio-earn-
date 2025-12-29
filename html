@@ -1,0 +1,58 @@
+
+import React from 'react';
+import { User } from '../types';
+import { REFERRAL_BONUS } from '../constants';
+
+interface DashboardProps {
+  user: User;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ user }) => {
+  return (
+    <div className="space-y-6">
+      <div className="bg-white p-4 rounded-2xl border-l-4 border-blue-500 flex items-center justify-between shadow-sm">
+        <div className="flex items-center gap-2">
+           <span className="relative flex h-3 w-3">
+             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+             <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+           </span>
+           <span className="text-xs font-bold text-gray-700">নিয়মিত কাজ করে ইনকাম করুন।</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <StatCard icon="fa-wallet" label="Job Balance" value={`৳${user.balance.toFixed(2)}`} color="text-green-600 bg-green-50" />
+        <StatCard icon="fa-users" label="Refer Income" value={`৳${user.referralIncome.toFixed(2)}`} color="text-blue-600 bg-blue-50" />
+        <StatCard icon="fa-arrow-down" label="Withdraw" value={`৳${user.totalWithdraw.toFixed(2)}`} color="text-red-600 bg-red-50" />
+        <StatCard icon="fa-star" label="Total Refer" value={user.referralCount.toString()} color="text-indigo-600 bg-indigo-50" />
+      </div>
+
+      <div className="bg-gradient-to-br from-blue-600 to-indigo-800 p-6 rounded-3xl text-white shadow-xl space-y-4">
+         <h3 className="font-black text-xl italic uppercase">Refer & Earn</h3>
+         <p className="text-xs text-blue-100 font-medium">আপনার বন্ধুদের আমন্ত্রণ জানান এবং প্রতি সফল রেফারে ৳{REFERRAL_BONUS} বোনাস পান।</p>
+         <div className="bg-white/10 p-4 rounded-2xl flex items-center justify-between border border-white/20">
+            <span className="font-mono font-black text-lg">{user.refId}</span>
+            <button 
+              onClick={() => {
+                navigator.clipboard.writeText(user.refId);
+                alert("রেফার কোড কপি হয়েছে!");
+              }}
+              className="bg-white text-blue-800 font-black px-4 py-2 rounded-xl text-xs"
+            >কপি</button>
+         </div>
+      </div>
+    </div>
+  );
+};
+
+const StatCard = ({ icon, label, value, color }: any) => (
+  <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center space-y-1">
+    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color} mb-1`}>
+      <i className={`fa-solid ${icon} text-lg`}></i>
+    </div>
+    <p className="text-lg font-black text-gray-800 tracking-tight">{value}</p>
+    <p className="text-[10px] uppercase font-black text-gray-400">{label}</p>
+  </div>
+);
+
+export default Dashboard;
